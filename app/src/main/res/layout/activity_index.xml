@@ -6,11 +6,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ListView
+    <ExpandableListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:childDivider="@drawable/child_seperator"
+        android:theme="@style/AppTheme"/>
 
 </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
