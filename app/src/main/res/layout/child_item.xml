@@ -2,18 +2,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:id="@+id/child_layout"
                 android:translationZ="0dp"
-                android:theme="@style/AppTheme">
-    <TextView
-        android:id="@+id/child_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:paddingLeft="35dp"
-        android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+    <ImageView android:id="@+id/divider"
+               android:layout_alignParentBottom="true"
+               android:layout_width="fill_parent"
+               android:layout_height="1dp"
+               android:background="@drawable/child_seperator" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="•"
+            android:paddingLeft="35dp"
+            android:id="@+id/textView"
+            android:theme="@style/AppTheme"/>
+
+        <TextView
+            android:id="@+id/child_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="3dp"
+            android:theme="@style/AppTheme"/>
+    </LinearLayout>
 
 
 </RelativeLayout>

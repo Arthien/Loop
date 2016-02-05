@@ -53,7 +53,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
         boolean cat = false;
         if(!childText.contains("https://"))
+        {
             cat = true;
+        }
         else
         {
             int location = childText.indexOf("=");
@@ -66,18 +68,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if(cat)
+            {
                 convertView = inflater.inflate(R.layout.child_item_header, parent, false);
+            }
             else
+            {
                 convertView = inflater.inflate(R.layout.child_item, parent, false);
+            }
         }
         TextView childTextView = (TextView) convertView.findViewById(R.id.child_text);
         if(childTextView != null)
             if(!cat)
             {
-                childTextView.setTag(childURL);
+                convertView.setTag(childURL);
                 Log.d("URL", childURL);
             }
-            childTextView.setText(childText);
+            String formattedChildText = capitalize(childText.replace("/r/", ""));
+            childTextView.setText(formattedChildText);
         return convertView;
     }
     @Override
@@ -132,5 +139,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public boolean areAllItemsEnabled() {
         return true;
+    }
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 }
