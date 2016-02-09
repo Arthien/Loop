@@ -2,42 +2,27 @@ package ethien.loop;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.Toolbar;
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
-public class Index extends Activity
+public class Index extends AppCompatActivity
 {
     private static final String RURL = "https://reddit.com/r/tldr/new.json?limit=10&raw_json=1&after=";
     private static final String author = "Intrinsic";
@@ -55,6 +40,8 @@ public class Index extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
         contentList = (ExpandableListView) findViewById(R.id.listView);
         swipeRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -77,29 +64,15 @@ public class Index extends Activity
     }
     private void fetchContent()
     {
-        NetworkManager.getInstance().fetchContent(new NetworkListener<HashMap>()
+        NetworkManager.getInstance().fetchContent(new NetworkListener<LinkedHashMap>()
         {
             @Override
-            public void getResult(HashMap preparedData)
+            public void getResult(LinkedHashMap preparedData)
             {
                 if (preparedData != null)
                 {
                     appendList(contentList, preparedData);
                 }
-            }
-        });
-    }
-    private void fetchStory(String url)
-    {
-        Log.d("Story start", url);
-        String result;
-        NetworkManager.getInstance().parseStoryFromUrl(url, new NetworkListener<String>()
-        {
-            @Override
-            public void getResult(String storyUrl)
-            {
-                Log.d("Story end", storyUrl);
-                loadStory(storyUrl);
             }
         });
     }
@@ -152,7 +125,7 @@ public class Index extends Activity
             String url = v.getTag().toString();
             if(url != null)
             {
-                fetchStory(url);
+                loadStory(url);
             }
             return false;
         }

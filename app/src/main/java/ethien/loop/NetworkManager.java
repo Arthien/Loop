@@ -21,6 +21,7 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -69,10 +70,11 @@ public class NetworkManager
         return instance;
     }
 
-    public void fetchContent(final NetworkListener<HashMap> listener)
+    public void fetchContent(final NetworkListener<LinkedHashMap> listener)
     {
 
         String url = prefixURL + afterID;
+        Log.d("Request URL", url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>()
@@ -101,6 +103,7 @@ public class NetworkManager
                                     HTML = childData.getString("selftext_html");
 
                                     String postTitle = childData.getString("title");
+                                    //Log.d("Title", postTitle);
                                     titleCache.add(postTitle);
 
                                     Element doc = Jsoup.parseBodyFragment(HTML).body();
@@ -135,14 +138,16 @@ public class NetworkManager
                             }
                             afterID = data.getString("after");
                             DataHandler dataHandler = new DataHandler(titleCache, storiesCache);
-                            HashMap<String, ArrayList<String>> preparedData = dataHandler.preparedData();
+                            LinkedHashMap<String, ArrayList<String>> preparedData = dataHandler.preparedData();
                             Log.d("story map", preparedData.toString());
                             listener.getResult(preparedData);
 
                         }
                         catch (JSONException e)
                         {
-                            Log.e("JSON Parse", e.toString());
+                            String error = e.toString();
+                            int length = error.length();
+                            Log.e("JSON Parse", error.substring(length - 70, -1));
                         }
                     }
                 },

@@ -3,31 +3,52 @@ package ethien.loop;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
-public class StoryDisplay extends Activity
+public class StoryDisplay extends AppCompatActivity
 {
+    private WebView storyWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         String storyUrl = extras.getString("url");
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_display);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
 
-        WebView storyWebView = (WebView) findViewById(R.id.story_view);
-        storyWebView.setWebViewClient(new storyBrowser());
+        storyWebView = (WebView) findViewById(R.id.story_view);
+        storyWebView.setWebViewClient(new storyBrowser()
+        {
+            public void onProgressChanged(WebView view, int progress)
+            {
+                StoryDisplay.this.setProgress(progress * 100);
+            }
+
+            public void onPageFinished(WebView view, String url)
+            {
+                //String name = storyWebView.getTitle();
+                setTitle(view.getTitle());
+            }
+        });
         storyWebView.getSettings().setLoadsImagesAutomatically(true);
         storyWebView.getSettings().setJavaScriptEnabled(true);
         storyWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        storyWebView.getSettings().setLoadWithOverviewMode(true);
+        storyWebView.getSettings().setUseWideViewPort(true);
         Log.d("Webview", storyUrl);
         storyWebView.loadUrl(storyUrl);
     }
@@ -39,6 +60,21 @@ public class StoryDisplay extends Activity
             view.loadUrl(url);
             return true;
         }
+    }
+
+    private void fetchStory(String url)
+    {
+        Log.d("Story start", url);
+        String result;
+        NetworkManager.getInstance().parseStoryFromUrl(url, new NetworkListener<String>()
+        {
+            @Override
+            public void getResult(String storyUrl)
+            {
+                Log.d("Story end", storyUrl);
+                storyWebView.loadUrl(storyUrl);
+            }
+        });
     }
 
     @Override

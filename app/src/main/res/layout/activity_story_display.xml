@@ -1,9 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="ethien.loop.StoryDisplay">
+                tools:context="ethien.loop.StoryDisplay"
+              android:orientation="vertical">
 
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar"/>
 
     <WebView
         android:layout_width="fill_parent"
@@ -11,4 +15,4 @@
         android:id="@+id/story_view"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
-</RelativeLayout>
+</LinearLayout>
