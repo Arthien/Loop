@@ -8,11 +8,6 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
 
-    <ImageView android:id="@+id/divider"
-               android:layout_alignParentBottom="true"
-               android:layout_width="fill_parent"
-               android:layout_height="1dp"
-               android:background="@drawable/child_seperator" />
     <TextView
         android:id="@+id/child_text"
         android:layout_width="wrap_content"
@@ -22,6 +17,11 @@
         android:paddingLeft="25dp"
         android:elevation="0dp"
         />
+    <ImageView android:id="@+id/divider"
+               android:layout_alignParentBottom="true"
+               android:layout_width="fill_parent"
+               android:layout_height="1dp"
+               android:background="@drawable/child_seperator" />
 
 
 </RelativeLayout>

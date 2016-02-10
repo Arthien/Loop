@@ -3,9 +3,7 @@ package ethien.loop;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * Created by Christian on 2/4/2016.

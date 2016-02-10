@@ -9,8 +9,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
+
 
 /**
  * Created by Christian on 2/4/2016.
@@ -18,10 +18,10 @@ import java.util.List;
 public class ExpandableListAdapter extends BaseExpandableListAdapter
 {
     private Context context;
-    private HashMap<String, ArrayList<String>> listChildData;
+    private LinkedHashMap<String, ArrayList<String>> listChildData;
     private ArrayList<String> listDataHeader;
 
-    public ExpandableListAdapter(Context context, HashMap<String, ArrayList<String>> hashMap,
+    public ExpandableListAdapter(Context context, LinkedHashMap<String, ArrayList<String>> hashMap,
                                  ArrayList<String> list)
     {
         this.context = context;
@@ -39,7 +39,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.group_item, parent, false);
         }
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.date_text);
         TextView parentTextView = (TextView) convertView.findViewById(R.id.group_text_parent);
+        String dateText = groupTitle.substring(0, groupTitle.indexOf("]") + 1);
+        groupTitle = groupTitle.substring(groupTitle.indexOf("]") + 1).trim();
+
+        dateTextView.setText(dateText);
         parentTextView.setText(groupTitle);
         return convertView;
     }
@@ -78,21 +83,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         }
         TextView childTextView = (TextView) convertView.findViewById(R.id.child_text);
         if(childTextView != null)
-            if(!cat)
+        {
+            if (!cat)
             {
                 convertView.setTag(childURL);
                 Log.d("URL", childURL);
             }
             String formattedChildText = capitalize(childText.replace("/r/", ""));
             childTextView.setText(formattedChildText);
+        }
         return convertView;
     }
     @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
+    public boolean isChildSelectable(int groupPosition, int childPosition)
+    {
         String child = getChild(groupPosition, childPosition).toString();
-        if(!child.contains("https://"))
-            return false;
-        return true;
+        return child.contains("https://");
     }
     @Override
     public int getChildrenCount(int groupPosition)

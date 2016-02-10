@@ -8,11 +8,6 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
 
-    <ImageView android:id="@+id/divider"
-               android:layout_alignParentBottom="true"
-               android:layout_width="fill_parent"
-               android:layout_height="1dp"
-               android:background="@drawable/child_seperator" />
 
     <LinearLayout
         android:orientation="horizontal"

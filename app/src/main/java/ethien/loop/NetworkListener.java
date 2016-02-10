@@ -5,5 +5,5 @@ package ethien.loop;
  */
 public interface NetworkListener<T>
 {
-    public void getResult(T Object);
+    void getResult(T Object);
 }

@@ -7,7 +7,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -20,9 +19,7 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Created by Christian on 2/5/2016.
@@ -35,7 +32,7 @@ public class NetworkManager
     private static final String prefixURL =
             "https://reddit.com/r/tldr/new.json?limit=10&raw_json=1&after=";
     private static final String storyUrlSuffix = ".json?raw_json=1";
-    private static final String[] filters = {"/r/IAmA", "/r/AskReddit"};
+    private static final String[] filters = {"/r/IAmA", "/r/AskReddit", "/r/Showerthoughts"};
 
     private static NetworkManager instance = null;
     private static String afterID = "";
@@ -90,7 +87,7 @@ public class NetworkManager
                             JSONArray children = data.getJSONArray("children");
                             JSONObject selected;
                             JSONObject childData;
-                            int x = 0;
+                            int x;
                             String HTML;
                             String kind;
                             for(x = 0; x < children.length(); x++)
@@ -204,5 +201,12 @@ public class NetworkManager
     private boolean filterStory(String input)
     {
         return !Arrays.asList(filters).contains(input);
+    }
+
+    public void clearCache()
+    {
+        titleCache.clear();
+        storiesCache.clear();
+        afterID = "";
     }
 }
